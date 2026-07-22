@@ -1,0 +1,56 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <LinearGradientBrush x:Key="NativeBackdropTint"
+                         StartPoint="0,0"
+                         EndPoint="1,1">
+        <GradientStop Offset="0" Color="#A02B4868" />
+        <GradientStop Offset="0.42" Color="#80101830" />
+        <GradientStop Offset="1" Color="#70211242" />
+    </LinearGradientBrush>
+    <RadialGradientBrush x:Key="LiquidGlassDepth"
+                         Center="0.96,1.02"
+                         GradientOrigin="1.04,1.10"
+                         RadiusX="0.88"
+                         RadiusY="0.72">
+        <GradientStop Offset="0" Color="#483F1B72" />
+        <GradientStop Offset="0.40" Color="#182A6C90" />
+        <GradientStop Offset="1" Color="#002A6C90" />
+    </RadialGradientBrush>
+    <SolidColorBrush x:Key="FallbackBackdropBackground" Color="#E6101830" />
+    <SolidColorBrush x:Key="PopupBackground" Color="#F0101828" />
+    <LinearGradientBrush x:Key="GlassCardBackground"
+                         StartPoint="0,0"
+                         EndPoint="1,1">
+        <GradientStop Offset="0" Color="#3AFFFFFF" />
+        <GradientStop Offset="0.20" Color="#20FFFFFF" />
+        <GradientStop Offset="1" Color="#12FFFFFF" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="GlassCardBorder"
+                         StartPoint="0,0"
+                         EndPoint="1,1">
+        <GradientStop Offset="0" Color="#78FFFFFF" />
+        <GradientStop Offset="0.45" Color="#38FFFFFF" />
+        <GradientStop Offset="1" Color="#18FFFFFF" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="GlassCardHoverBackground"
+                         StartPoint="0,0"
+                         EndPoint="1,1">
+        <GradientStop Offset="0" Color="#4AFFFFFF" />
+        <GradientStop Offset="1" Color="#20FFFFFF" />
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="GlassCardTopHighlight" Color="#68FFFFFF" />
+    <SolidColorBrush x:Key="GlassDivider" Color="#20FFFFFF" />
+    <SolidColorBrush x:Key="ProgressTrack" Color="#2AFFFFFF" />
+
+    <SolidColorBrush x:Key="PrimaryText" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="SecondaryText" Color="#FFB8C4DD" />
+    <SolidColorBrush x:Key="CaptionText" Color="#FF8190AE" />
+
+    <SolidColorBrush x:Key="AccentBlue" Color="#FF54B9FF" />
+    <SolidColorBrush x:Key="AccentGreen" Color="#FF55E3CB" />
+    <SolidColorBrush x:Key="AccentPurple" Color="#FFA277FF" />
+    <SolidColorBrush x:Key="WarningColor" Color="#FFFFC85A" />
+    <SolidColorBrush x:Key="ErrorColor" Color="#FFFF6B7D" />
+
+    <Color x:Key="GlassShadowColor">#38030A1C</Color>
+</ResourceDictionary>

@@ -1,0 +1,219 @@
+<Window x:Class="CodexQuotaMonitor.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:CodexQuotaMonitor.Controls"
+        xmlns:converters="clr-namespace:CodexQuotaMonitor.Converters"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Codex Quota Monitor"
+        Width="330"
+        Height="300"
+        MinWidth="330"
+        MinHeight="300"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        AllowsTransparency="False"
+        Background="Transparent"
+        SnapsToDevicePixels="True"
+        TextOptions.TextFormattingMode="Display"
+        TextOptions.TextRenderingMode="Grayscale"
+        UseLayoutRounding="True"
+        Topmost="{Binding Settings.AlwaysOnTop}">
+    <Window.Resources>
+        <converters:RemainingPercentageConverter x:Key="RemainingPercentageConverter" />
+
+        <Style x:Key="WidgetIconButtonStyle"
+               BasedOn="{StaticResource GlassButtonStyle}"
+               TargetType="{x:Type Button}">
+            <Setter Property="Width" Value="30" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="MinHeight" Value="0" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="FontFamily" Value="Segoe Fluent Icons, Segoe MDL2 Assets" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontWeight" Value="Normal" />
+        </Style>
+
+        <Style x:Key="InformationLabelStyle"
+               BasedOn="{StaticResource BodyTextStyle}"
+               TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="9.5" />
+            <Setter Property="Foreground" Value="{DynamicResource SecondaryText}" />
+        </Style>
+
+        <Style x:Key="InformationValueStyle"
+               BasedOn="{StaticResource BodyTextStyle}"
+               TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="9.5" />
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryText}" />
+            <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        </Style>
+
+        <Style x:Key="InformationIconStyle"
+               TargetType="{x:Type TextBlock}">
+            <Setter Property="Width" Value="11" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontFamily" Value="Segoe Fluent Icons, Segoe MDL2 Assets" />
+            <Setter Property="FontSize" Value="8.5" />
+            <Setter Property="Foreground" Value="{DynamicResource AccentBlue}" />
+            <Setter Property="Opacity" Value="1" />
+            <Setter Property="TextAlignment" Value="Center" />
+        </Style>
+    </Window.Resources>
+
+    <Grid x:Name="RootGrid" Background="Transparent">
+        <Grid x:Name="NativeBackdropTint"
+              Background="{DynamicResource NativeBackdropTint}"
+              IsHitTestVisible="False"
+              Opacity="{Binding Settings.BackgroundOpacity}"
+              Visibility="Collapsed">
+            <Rectangle Fill="{DynamicResource LiquidGlassDepth}" />
+        </Grid>
+
+        <Border x:Name="FallbackBackdrop"
+                Background="{DynamicResource FallbackBackdropBackground}"
+                IsHitTestVisible="False"
+                Visibility="Collapsed" />
+
+        <Grid x:Name="DashboardContent"
+              Margin="14,12"
+              Background="Transparent">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32" />
+                <RowDefinition Height="5" />
+                <RowDefinition Height="160" />
+                <RowDefinition Height="5" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0"
+                  Background="Transparent"
+                  MouseLeftButtonDown="TitleBar_OnMouseLeftButtonDown">
+                <TextBlock VerticalAlignment="Center"
+                           Margin="10,0,0,0"
+                           FontSize="{StaticResource WindowTitleTextSize}"
+                           FontWeight="SemiBold"
+                           Foreground="{DynamicResource PrimaryText}"
+                           Opacity="0.76"
+                           Text="Codex Quota Monitor" />
+
+                <StackPanel HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                    <Button AutomationProperties.Name="打开设置"
+                            Command="{Binding OpenSettingsCommand}"
+                            Style="{StaticResource WidgetIconButtonStyle}"
+                            ToolTip="设置"
+                            Content="&#xE713;" />
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="8" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <controls:QuotaCard Grid.Column="0"
+                                    AccentBrush="{DynamicResource AccentBlue}"
+                                    MaximumValue="{Binding TodayQuota.Limit}"
+                                    Percentage="{Binding TodayQuota.UsagePercentage, Converter={StaticResource RemainingPercentageConverter}}"
+                                    ProgressSubtitle="{Binding FiveHourQuotaSubtitle}"
+                                    Title="5 hour"
+                                    UsedValue="{Binding TodayQuota.Used}" />
+
+                <controls:QuotaCard Grid.Column="2"
+                                    AccentBrush="{DynamicResource AccentPurple}"
+                                    MaximumValue="{Binding WeekQuota.Limit}"
+                                    Percentage="{Binding WeekQuota.UsagePercentage, Converter={StaticResource RemainingPercentageConverter}}"
+                                    ProgressSubtitle="剩余"
+                                    Title="7 day"
+                                    UsedValue="{Binding WeekQuota.Used}" />
+            </Grid>
+
+            <Border Grid.Row="4"
+                    Padding="7,2"
+                    BorderBrush="Transparent"
+                    BorderThickness="0"
+                    CornerRadius="14"
+                    Style="{StaticResource GlassCardStyle}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="11" />
+                        <ColumnDefinition Width="46" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="0"
+                               Style="{StaticResource InformationIconStyle}"
+                               Text="&#xE77B;" />
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="1"
+                               Margin="5,0,0,0"
+                               VerticalAlignment="Center"
+                               Style="{StaticResource InformationLabelStyle}"
+                               Text="账号" />
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="2"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Center"
+                               Style="{StaticResource InformationValueStyle}"
+                               Text="{Binding AccountDisplay}" />
+
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="0"
+                               Style="{StaticResource InformationIconStyle}"
+                               Text="&#xE823;" />
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="1"
+                               Margin="5,0,0,0"
+                               VerticalAlignment="Center"
+                               Style="{StaticResource InformationLabelStyle}"
+                               Text="下次重置" />
+                    <Grid Grid.Row="1"
+                          Grid.Column="2"
+                          HorizontalAlignment="Right"
+                          VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="7" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0"
+                                   Style="{StaticResource InformationValueStyle}"
+                                   Text="{Binding FiveHourResetDisplay}" />
+                        <TextBlock Grid.Column="2"
+                                   Style="{StaticResource InformationValueStyle}"
+                                   Text="{Binding SevenDayResetDisplay}" />
+                    </Grid>
+
+                    <TextBlock Grid.Row="2"
+                               Grid.Column="0"
+                               Style="{StaticResource InformationIconStyle}"
+                               Text="&#xE787;" />
+                    <TextBlock Grid.Row="2"
+                               Grid.Column="1"
+                               Margin="5,0,0,0"
+                               VerticalAlignment="Center"
+                               Style="{StaticResource InformationLabelStyle}"
+                               Text="更新时间" />
+                    <TextBlock Grid.Row="2"
+                               Grid.Column="2"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Center"
+                               Style="{StaticResource InformationValueStyle}"
+                               Text="{Binding LastSyncTimeDisplay}" />
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,84 @@
+<UserControl x:Class="CodexQuotaMonitor.Controls.StatusIndicator"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:CodexQuotaMonitor.Models"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             x:Name="RootControl"
+             d:DesignHeight="58"
+             d:DesignWidth="220"
+             Focusable="False"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style x:Key="StatusDotStyle" TargetType="{x:Type Ellipse}">
+            <Setter Property="Fill" Value="{DynamicResource AccentGreen}" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding StatusType, ElementName=RootControl}"
+                             Value="{x:Static models:SyncStatusType.Syncing}">
+                    <Setter Property="Fill" Value="{DynamicResource AccentBlue}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding StatusType, ElementName=RootControl}"
+                             Value="{x:Static models:SyncStatusType.Failed}">
+                    <Setter Property="Fill" Value="{DynamicResource ErrorColor}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding StatusType, ElementName=RootControl}"
+                             Value="{x:Static models:SyncStatusType.DataSourceNotFound}">
+                    <Setter Property="Fill" Value="{DynamicResource WarningColor}" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="StatusTextStyle"
+               BasedOn="{StaticResource BodyTextStyle}"
+               TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="{DynamicResource AccentGreen}" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding StatusType, ElementName=RootControl}"
+                             Value="{x:Static models:SyncStatusType.Syncing}">
+                    <Setter Property="Foreground" Value="{DynamicResource AccentBlue}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding StatusType, ElementName=RootControl}"
+                             Value="{x:Static models:SyncStatusType.Failed}">
+                    <Setter Property="Foreground" Value="{DynamicResource ErrorColor}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding StatusType, ElementName=RootControl}"
+                             Value="{x:Static models:SyncStatusType.DataSourceNotFound}">
+                    <Setter Property="Foreground" Value="{DynamicResource WarningColor}" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <Border Padding="12,7"
+            CornerRadius="12"
+            Style="{StaticResource GlassCardStyle}">
+        <StackPanel Orientation="Horizontal">
+            <Ellipse Width="8"
+                     Height="8"
+                     Margin="0,0,8,0"
+                     VerticalAlignment="Center"
+                     Style="{StaticResource StatusDotStyle}" />
+
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Style="{StaticResource StatusTextStyle}"
+                           Text="{Binding StatusText, ElementName=RootControl}" />
+                <TextBlock>
+                    <TextBlock.Style>
+                        <Style BasedOn="{StaticResource CaptionStyle}"
+                               TargetType="{x:Type TextBlock}">
+                            <Setter Property="Text"
+                                    Value="{Binding LastUpdate, ElementName=RootControl, StringFormat='最后同步：{0:yyyy-MM-dd HH:mm:ss}'}" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding LastUpdate, ElementName=RootControl}"
+                                             Value="{x:Static system:DateTime.MinValue}">
+                                    <Setter Property="Text" Value="最后同步：--" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</UserControl>

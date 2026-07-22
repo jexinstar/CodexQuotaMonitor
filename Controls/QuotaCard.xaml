@@ -1,0 +1,48 @@
+<UserControl x:Class="CodexQuotaMonitor.Controls.QuotaCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:CodexQuotaMonitor.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:Name="RootControl"
+             d:DesignHeight="108"
+             d:DesignWidth="145"
+             HorizontalContentAlignment="Stretch"
+             SnapsToDevicePixels="True"
+             UseLayoutRounding="True"
+             VerticalContentAlignment="Stretch"
+             mc:Ignorable="d">
+    <Border x:Name="CardChrome"
+            Padding="5,4"
+            BorderBrush="Transparent"
+            BorderThickness="0"
+            CornerRadius="14"
+            Style="{StaticResource GlassCardStyle}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <TextBlock HorizontalAlignment="Center"
+                       FontSize="14"
+                       FontWeight="SemiBold"
+                       Foreground="{DynamicResource PrimaryText}"
+                       Text="{Binding Title, ElementName=RootControl}" />
+
+            <controls:CircularProgress Grid.Row="1"
+                                       Width="118"
+                                       Height="118"
+                                       Margin="0,2,0,0"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       DisplayText="{Binding AnimatedPercentage, ElementName=RootControl, StringFormat={}{0:0}%}"
+                                       Maximum="100"
+                                       ProgressBrush="{Binding AccentBrush, ElementName=RootControl}"
+                                       StrokeThickness="16"
+                                       Subtitle="{Binding ProgressSubtitle, ElementName=RootControl}"
+                                       TrackBrush="{DynamicResource ProgressTrack}"
+                                       Value="{Binding Percentage, ElementName=RootControl}" />
+        </Grid>
+    </Border>
+</UserControl>

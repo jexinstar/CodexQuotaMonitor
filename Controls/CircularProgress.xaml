@@ -1,0 +1,39 @@
+<UserControl x:Class="CodexQuotaMonitor.Controls.CircularProgress"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:Name="RootControl"
+             d:DesignHeight="140"
+             d:DesignWidth="140"
+             Focusable="False"
+             mc:Ignorable="d">
+    <Grid>
+        <Path x:Name="TrackPath"
+              Stroke="{Binding TrackBrush, ElementName=RootControl}"
+              StrokeEndLineCap="Round"
+              StrokeStartLineCap="Round"
+              StrokeThickness="{Binding StrokeThickness, ElementName=RootControl}" />
+
+        <Path x:Name="ProgressPath"
+              Stroke="{Binding ProgressBrush, ElementName=RootControl}"
+              StrokeEndLineCap="Round"
+              StrokeStartLineCap="Round"
+              StrokeThickness="{Binding StrokeThickness, ElementName=RootControl}" />
+
+        <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    IsHitTestVisible="False">
+            <TextBlock HorizontalAlignment="Center"
+                       Style="{StaticResource LargeNumberStyle}"
+                       FontSize="16"
+                       FontWeight="SemiBold"
+                       Text="{Binding DisplayText, ElementName=RootControl}" />
+            <TextBlock Margin="0,2,0,0"
+                       HorizontalAlignment="Center"
+                       Style="{StaticResource CaptionStyle}"
+                       FontSize="11.5"
+                       Text="{Binding Subtitle, ElementName=RootControl}" />
+        </StackPanel>
+    </Grid>
+</UserControl>
